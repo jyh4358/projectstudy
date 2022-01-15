@@ -20,6 +20,15 @@ public class UserBean {
 	@Pattern(regexp = "[a-zA-Z0-9]*")
 	private String user_pw2;
 	
+	private boolean userIdExist;
+	private boolean userLogin;
+	
+	public UserBean() {
+		// TODO Auto-generated constructor stub
+		this.userIdExist = false;
+		this.userLogin = false;
+	}
+	
 	public String getUser_pw2() {
 		return user_pw2;
 	}
@@ -49,6 +58,22 @@ public class UserBean {
 	}
 	public void setUser_pw(String user_pw) {
 		this.user_pw = user_pw;
+	}
+
+	public boolean isUserIdExist() {
+		return userIdExist;
+	}
+
+	public void setUserIdExist(boolean userIdExist) {
+		this.userIdExist = userIdExist;
+	}
+
+	public boolean isUserLogin() {
+		return userLogin;
+	}
+
+	public void setUserLogin(boolean userLogin) {
+		this.userLogin = userLogin;
 	}
 	
 	

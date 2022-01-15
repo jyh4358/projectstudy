@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.softcampus.beans.BoardInfoBean;
+import kr.co.softcampus.beans.UserBean;
 import kr.co.softcampus.dao.TopMenuDao;
 
 @Service
@@ -17,4 +18,6 @@ public class TopMenuService {
 	public List<BoardInfoBean> getTopMenuList(){
 		return menuDao.getTopMenuList();
 	}
+	
+
 }
