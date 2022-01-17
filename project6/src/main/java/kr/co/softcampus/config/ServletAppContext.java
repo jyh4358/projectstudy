@@ -37,9 +37,10 @@ import kr.co.softcampus.service.TopMenuService;
 @ComponentScan("kr.co.softcampus.service")
 @ComponentScan("kr.co.softcampus.dao")
 
+
 @PropertySource("/WEB-INF/properties/db.properties")
 public class ServletAppContext implements WebMvcConfigurer{
-	
+
 	@Value("${db.classname}")
 	private String db_classname;
 	@Value("${db.url}")
@@ -50,10 +51,11 @@ public class ServletAppContext implements WebMvcConfigurer{
 	private String db_password;
 	
 	@Autowired
-	private TopMenuService topMenuService;
+	TopMenuService topMenuService;
 	
 	@Resource(name = "loginUserBean")
 	private UserBean loginUserBean;
+	
 	
 	
 	// Controller의 메서드가 반환하는 jsp의 이름 앞뒤에 경로와 확장자를 붙혀주도록 설정한다.
@@ -74,7 +76,6 @@ public class ServletAppContext implements WebMvcConfigurer{
 	
 	@Bean
 	public BasicDataSource dataSource() {
-		
 		BasicDataSource source = new BasicDataSource();
 		source.setDriverClassName(db_classname);
 		source.setUrl(db_url);
@@ -82,12 +83,10 @@ public class ServletAppContext implements WebMvcConfigurer{
 		source.setPassword(db_password);
 		
 		return source;
-		
 	}
 	
 	@Bean
 	public SqlSessionFactory factory(BasicDataSource source) throws Exception {
-		
 		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 		factoryBean.setDataSource(source);
 		SqlSessionFactory factory = factoryBean.getObject();
@@ -96,12 +95,12 @@ public class ServletAppContext implements WebMvcConfigurer{
 	}
 	
 	@Bean
-	public MapperFactoryBean<TopMenuMapper> getTopMenuMapper(SqlSessionFactory factory) throws Exception{
-		
+	public MapperFactoryBean<TopMenuMapper> topMenuMapper(SqlSessionFactory factory) throws Exception{
 		MapperFactoryBean<TopMenuMapper> factoryBean = new MapperFactoryBean<TopMenuMapper>(TopMenuMapper.class);
 		factoryBean.setSqlSessionFactory(factory);
 		
-		return factoryBean;	
+		return factoryBean;
+		
 	}
 	@Bean
 	public MapperFactoryBean<UserMapper> getUserMapper(SqlSessionFactory factory) throws Exception{
@@ -116,39 +115,30 @@ public class ServletAppContext implements WebMvcConfigurer{
 	public void addInterceptors(InterceptorRegistry registry) {
 		// TODO Auto-generated method stub
 		WebMvcConfigurer.super.addInterceptors(registry);
-		
 		TopMenuInterceptor topMenuInterceptor = new TopMenuInterceptor(topMenuService, loginUserBean);
 		InterceptorRegistration reg1 = registry.addInterceptor(topMenuInterceptor);
+		reg1.addPathPatterns("/**");
 		
 		CheckUserInterceptor checkUserInterceptor = new CheckUserInterceptor(loginUserBean);
 		InterceptorRegistration reg2 = registry.addInterceptor(checkUserInterceptor);
 		reg2.addPathPatterns("/user/modify", "/user/logout", "/board/*");
 		reg2.excludePathPatterns("/board/main");
-				
-		
-		reg1.addPathPatterns("/**");
-		
+
 	}
+	
 	@Bean
-	public static PropertySourcesPlaceholderConfigurer propertySourcePlaceHolderConfigurer() {
+	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
 		
 		return new PropertySourcesPlaceholderConfigurer();
 	}
 	
 	@Bean
 	public ReloadableResourceBundleMessageSource messageSource() {
-		
 		ReloadableResourceBundleMessageSource res = new ReloadableResourceBundleMessageSource();
-		res.setBasenames("/WEB-INF/properties/error");
+		res.addBasenames("/WEB-INF/properties/error_message");
 		
 		return res;
 	}
-	
-	
-	
-
-	
-	
 	
 	
 }
