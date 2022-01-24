@@ -18,9 +18,14 @@ public class UserController {
 		return "user/login";
 	}
 	
-	@GetMapping("modify")
+	@GetMapping("/modify")
 	public String modify() {
 		return "user/modify";
+	}
+	
+	@GetMapping("/logout")
+	public String logout() {
+		return "user/logout";
 	}
 
 }

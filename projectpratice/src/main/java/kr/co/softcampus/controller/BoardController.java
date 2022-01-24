@@ -27,4 +27,9 @@ public class BoardController {
 	public String write() {
 		return "board/write";
 	}
+	@GetMapping("/delete")
+	public String delete() {
+		return "board/delete";
+	}
+
 }

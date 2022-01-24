@@ -37,7 +37,7 @@
 				<a href="${root }user/modify" class="nav-link">정보수정</a>
 			</li>
 			<li class="nav-item">
-				<a href="${root }index" class="nav-link">로그아웃</a>
+				<a href="${root }user/logout" class="nav-link">로그아웃</a>
 			</li>
 		</ul>
 	</div>
